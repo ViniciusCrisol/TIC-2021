@@ -1,7 +1,7 @@
 {
-  "name": "front-end",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.1.0",
+  "name": "front-end",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
