@@ -13,7 +13,9 @@
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
     },
     "extra": {
-      "ssl": "true"
+      "ssl": {
+        "rejectUnauthorized": false
+      }
     }
   }
 ]

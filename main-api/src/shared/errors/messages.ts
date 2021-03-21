@@ -27,3 +27,13 @@ export const jwtIsInvalid = {
   status: 401,
   message: 'Error, JWT token is invalid!',
 };
+
+export const businessRoleNotExists = {
+  status: 400,
+  message: 'Error, business role does not exists!',
+};
+
+export const mainThingNotExists = {
+  status: 400,
+  message: 'Error, main thing does not exists!',
+};
