@@ -1,5 +1,5 @@
 import path from 'path';
-import User from '../models/User';
+import Account from '../models/Account';
 
 class EmailRepository {
   #joinTemplatePath(fileName) {
@@ -12,9 +12,9 @@ class EmailRepository {
     }
   }
 
-  async getEmailData(userId, template) {
+  async getEmailData(id, template) {
     if (template === 'welcome') {
-      const response = await User.findByPk(userId, {
+      const response = await Account.findByPk(id, {
         attributes: ['name', 'email'],
       });
       if (!response) return undefined;

@@ -1,5 +1,5 @@
 import path from 'path';
-import User from '../models/User';
+import Account from '../models/Account';
 
 class PdfRepository {
   #joinTemplatePath(fileName) {
@@ -16,9 +16,9 @@ class PdfRepository {
     }
   }
 
-  async getPdfData(userId, template) {
+  async getPdfData(id, template) {
     if (template === 'users-report') {
-      const response = await User.findByPk(userId, {
+      const response = await Account.findByPk(id, {
         attributes: ['name'],
       });
       if (!response) return undefined;
