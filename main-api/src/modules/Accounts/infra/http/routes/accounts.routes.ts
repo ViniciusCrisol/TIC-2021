@@ -7,13 +7,14 @@ const accountsController = new AccountsController();
 
 accountsRoutes.post(
   '/',
-  // celebrate({
-  //   [Segments.BODY]: {
-  //     name: Joi.string().required(),
-  //     password: Joi.string().required(),
-  //     email: Joi.string().email().required(),
-  //   },
-  // }),
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      account_name: Joi.string().required(),
+      password: Joi.string().required(),
+    },
+  }),
   accountsController.create,
 );
 

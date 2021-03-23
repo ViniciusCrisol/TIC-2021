@@ -8,8 +8,6 @@ import {
 
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import IBackofficeProvider from '@shared/container/providers/BackofficeProvider/models/IBackofficeProvider';
-import IBusinessRolesRepository from '@modules/BusinessRoles/repositories/IBusinessRolesRepository';
-import IMainThingsRepository from '@modules/MainThings/repositories/IMainThingsRepository';
 import IAccountsRepository from '../repositories/IAccountsRepository';
 import Account from '../infra/typeorm/entities/Account';
 
@@ -18,8 +16,6 @@ interface IRequest {
   email: string;
   password: string;
   account_name: string;
-  account_business_role_id: string;
-  account_main_thing_id: string;
 }
 
 @injectable()
@@ -33,12 +29,6 @@ class CreateAccountService {
 
     @inject('AccountsRepository')
     private accountsRepository: IAccountsRepository,
-
-    @inject('BusinessRolesRepository')
-    private businessRolesRepository: IBusinessRolesRepository,
-
-    @inject('MainThingsRepository')
-    private mainThingsRepository: IMainThingsRepository,
   ) {}
 
   public async execute({
@@ -46,36 +36,18 @@ class CreateAccountService {
     email,
     password,
     account_name,
-    account_business_role_id,
-    account_main_thing_id,
   }: IRequest): Promise<Account> {
     const checkAccountExists = await this.accountsRepository.findByEmail(email);
     if (checkAccountExists) {
       throw new AppError(emailAlreadyInUse.message);
     }
 
-    const checkMainThingExists = await this.businessRolesRepository.findById(
-      account_business_role_id,
-    );
-    if (!checkMainThingExists) {
-      throw new AppError(mainThingNotExists.message);
-    }
-
-    const checkBusinessRoleExists = await this.mainThingsRepository.findById(
-      account_main_thing_id,
-    );
-    if (!checkBusinessRoleExists) {
-      throw new AppError(businessRoleNotExists.message);
-    }
-
     const hashedPassword = await this.hashProvider.generateHash(password);
     const account = await this.accountsRepository.create({
       name,
       email,
-      password_hash: hashedPassword,
       account_name,
-      account_business_role_id,
-      account_main_thing_id,
+      password_hash: hashedPassword,
     });
 
     this.backofficeProvider.sendWelcomeMail(account.id);

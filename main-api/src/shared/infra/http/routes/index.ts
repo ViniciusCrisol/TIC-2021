@@ -2,12 +2,12 @@ import { Router } from 'express';
 
 import backofficeRouter from './backoffice.routes';
 import accountsRouter from '@modules/Accounts/infra/http/routes/accounts.routes';
-import accountSessionsRouter from '@modules/Accounts/infra/http/routes/account.sessions.routes';
+import sessionsRouter from '@modules/Accounts/infra/http/routes/sessions.routes';
 
 const routes = Router();
 
 routes.use('/', backofficeRouter);
 routes.use('/accounts', accountsRouter);
-routes.use('/accounts/session', accountSessionsRouter);
+routes.use('/accounts/session', sessionsRouter);
 
 export default routes;

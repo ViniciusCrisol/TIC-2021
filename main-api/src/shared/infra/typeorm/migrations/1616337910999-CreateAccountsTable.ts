@@ -1,7 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateAccountsTable1616337910999
-  implements MigrationInterface {
+export class CreateAccountsTable1616337910999 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -36,16 +35,6 @@ export default class CreateAccountsTable1616337910999
             length: '60',
           },
           {
-            name: 'account_main_thing_id',
-            type: 'uuid',
-            isNullable: true,
-          },
-          {
-            name: 'account_business_role_id',
-            type: 'uuid',
-            isNullable: true,
-          },
-          {
             name: 'inserted_at',
             type: 'timestamp',
             default: 'now()',
@@ -56,36 +45,11 @@ export default class CreateAccountsTable1616337910999
             default: 'now()',
           },
         ],
-        foreignKeys: [
-          {
-            name: 'fk_MainThings_Accounts',
-            columnNames: ['account_main_thing_id'],
-            referencedTableName: 'main_things',
-            referencedColumnNames: ['id'],
-            onDelete: 'SET NULL',
-            onUpdate: 'SET NULL',
-          },
-
-          {
-            name: 'fk_AccountBusinessRoles_Accounts',
-            columnNames: ['account_business_role_id'],
-            referencedTableName: 'business_roles',
-            referencedColumnNames: ['id'],
-            onDelete: 'SET NULL',
-            onUpdate: 'SET NULL',
-          },
-        ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('accounts', 'fk_MainThings_Accounts');
-    await queryRunner.dropForeignKey(
-      'accounts',
-      'fk_AccountBusinessRoles_Accounts',
-    );
-
     await queryRunner.dropTable('accounts');
   }
 }
